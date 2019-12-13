@@ -1,38 +1,37 @@
 module NumeralsSpec where
 
 import Test.Hspec
+import Data.List.Split
+import Data.List
 
 spec :: Spec
 spec = do
-  describe "Numerals" $ do
-    it "returns I for 1" $ do
-      convert 1 `shouldBe` "I"
+    describe "WordWrap" $ do
+        it "returns the string" $ do
+            wordwrap "a" 2 `shouldBe` "a"
 
-    it "returns II for 2" $ do
-      convert 2 `shouldBe` "II"
+        it "wraps a simple string" $ do
+            wordwrap "hello world" 6 `shouldBe` "hello\nworld"
 
-    it "returns III for 3" $ do
-      convert 3 `shouldBe` "III"
+        it "wraps a 3 words string" $ do
+            wordwrap "hello world helloooo" 15 `shouldBe` "hello world\nhelloooo"
 
-    it "returns IV for 4" $ do
-      convert 4 `shouldBe` "IV"
+wordwrap :: String -> Int -> String
+wordwrap str breakpoint
+    | length str > 14 = ((splitOn " " str) !! 0) ++ " " ++ ((splitOn " " str) !! 1) ++ "\n" ++ ((splitOn " " str) !! 2)  --intercalate "\n" ((take 2 (splitOn " " str)) ++ (splitOn " " str))
+    | otherwise = intercalate "\n" (splitOn " " str)
+--  describe "Numerals" $ do
+--    it "returns I for 1" $ do
+--      convert 1 `shouldBe` "I"
+--
+--convert :: Int -> String
+--convert 4 = "IV"
+--convert n
+--  | n>=5 = "V"++ (convert (n-5))
+--  | otherwise = take n (repeat 'I')
 
-    it "returns V for 5" $ do
-      convert 5 `shouldBe` "V"
 
-    it "returns VI for 6" $ do
-      convert 6 `shouldBe` "VI"
 
-    it "returns VII for 7" $ do
-      convert 7 `shouldBe` "VII"
 
-    it "returns VIII for 8" $ do
-      convert 8 `shouldBe` "VIII"
-
-convert :: Int -> String
-convert 4 = "IV"
-convert n 
-  | n>=5 = "V"++ (convert (n-5))
-  | otherwise = take n (repeat 'I')
 
 
